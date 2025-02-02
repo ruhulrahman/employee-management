@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -50,11 +51,16 @@ class AuthController extends Controller
         return response()->json(['message' => 'User created successfully']);
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
-        // auth()->logout();
-        auth()->token()->revoke();
-        return response()->json(['message' => 'Logout successful.']);
+        $user = Auth::user();
+
+        if ($user) {
+            $request->user()->currentAccessToken()->delete(); // Deletes the current token
+            return response()->json(['message' => 'Logged out successfully'], 200);
+        }
+
+        return response()->json(['message' => 'User not authenticated'], 401);
     }
 
     public function me()
