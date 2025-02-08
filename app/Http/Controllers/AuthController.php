@@ -63,6 +63,12 @@ class AuthController extends Controller
         return response()->json(['message' => 'User not authenticated'], 401);
     }
 
+    public function logoutFromAllDevices(Request $request)
+    {
+        $request->user()->tokens()->delete(); // Deletes all tokens for the user
+        return response()->json(['message' => 'Logged out from all devices'], 200);
+    }
+
     public function me()
     {
         return response()->json(auth()->user());

@@ -22,7 +22,7 @@ class LeaveRequestController extends Controller
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
             'reason' => $request->reason,
-            'status' => $request->status,
+            'status' => $request->status != null ? $request->status : 'Pending',
         ]);
         // $leaveRequest->employee_id = $user->id;
         // $leaveRequest->status = 'Pending';
